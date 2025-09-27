@@ -3856,139 +3856,30 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
     // how many sprites are in the Y axis
     anims: GRASS_ANIMS
   });
-  function mulberry32(a) {
-    return function() {
-      let t = a += 1831565813;
-      t = Math.imul(t ^ t >>> 15, t | 1);
-      t ^= t + Math.imul(t ^ t >>> 7, t | 61);
-      return ((t ^ t >>> 14) >>> 0) / 4294967296;
-    };
-  }
-<<<<<<< HEAD
-  function expandReducedToWorld(reduced, fullWidth, fullHeight, barrierValue = 0) {
-    const reducedH = reduced.length;
-    const reducedW = reducedH > 0 ? reduced[0].length : 0;
-    const expectedW = Math.floor((fullWidth - 1) / 2);
-    const expectedH = Math.floor((fullHeight - 1) / 2);
-    if (reducedW !== expectedW || reducedH !== expectedH) {
-      throw new Error(`Reduced grid size mismatch. Expected ${expectedH}x${expectedW}, got ${reducedH}x${reducedW}`);
-    }
-    const full = [];
-    for (let y = 0; y < fullHeight; y++) {
-      const row = [];
-      if (y % 2 === 0) {
-        for (let x = 0; x < fullWidth; x++) row.push(barrierValue);
-      } else {
-        for (let x = 0; x < fullWidth; x++) {
-          if (x % 2 === 0) row.push(barrierValue);
-          else {
-            const ry = (y - 1) / 2;
-            const rx = (x - 1) / 2;
-            row.push(reduced[ry][rx]);
-          }
-        }
-      }
-      full.push(row);
-    }
-    return full;
-  }
-=======
->>>>>>> 3567321 (AAAAAAAAAAAAAAAAAh)
-  var Perlin = class {
-    perm;
-    constructor(seed = Math.random() * 1e4) {
-      this.perm = new Array(512);
-      const p = new Array(256);
-      for (let i2 = 0; i2 < 256; i2++) p[i2] = i2;
-      let rng = mulberry32(Math.floor(seed));
-      for (let i2 = 255; i2 > 0; i2--) {
-        const j = Math.floor(rng() * (i2 + 1));
-        [p[i2], p[j]] = [p[j], p[i2]];
-      }
-      for (let i2 = 0; i2 < 512; i2++) this.perm[i2] = p[i2 & 255];
-    }
-    fade(t) {
-      return t * t * t * (t * (t * 6 - 15) + 10);
-    }
-    lerp(a, b, t) {
-      return a + t * (b - a);
-    }
-    grad(hash, x, y) {
-      const h2 = hash & 3;
-      const u = h2 < 2 ? x : y;
-      const v2 = h2 < 2 ? y : x;
-      return ((h2 & 1) === 0 ? u : -u) + ((h2 & 2) === 0 ? v2 : -v2);
-    }
-    noise(x, y) {
-      const X = Math.floor(x) & 255;
-      const Y = Math.floor(y) & 255;
-      const xf = x - Math.floor(x);
-      const yf = y - Math.floor(y);
-      const u = this.fade(xf);
-      const v2 = this.fade(yf);
-      const aa = this.perm[X + this.perm[Y]];
-      const ab = this.perm[X + this.perm[Y + 1]];
-      const ba = this.perm[X + 1 + this.perm[Y]];
-      const bb = this.perm[X + 1 + this.perm[Y + 1]];
-      const x1 = this.lerp(this.grad(aa, xf, yf), this.grad(ba, xf - 1, yf), u);
-      const x2 = this.lerp(this.grad(ab, xf, yf - 1), this.grad(bb, xf - 1, yf - 1), u);
-      return (this.lerp(x1, x2, v2) + 1) / 2;
-    }
-  };
-  function generatePerlinBinary(width2, height2, fullness, scale2 = 0, fractal = false) {
-    if (fullness <= 0) return Array.from({ length: height2 }, () => Array(width2).fill(0));
-    if (fullness >= 1) return Array.from({ length: height2 }, () => Array(width2).fill(1));
-    const perlin = new Perlin();
-    if (scale2 <= 0) scale2 = Math.max(width2, height2) / 8;
-    const values = [];
-    for (let y = 0; y < height2; y++) {
-      for (let x = 0; x < width2; x++) {
-        let noiseVal;
-        if (!fractal) {
-          noiseVal = perlin.noise(x / scale2, y / scale2);
-        } else {
-          let total = 0;
-          let frequency = 1;
-          let amplitude = 1;
-          let maxValue = 0;
-          for (let octave = 0; octave < 4; octave++) {
-            total += perlin.noise(x / scale2 * frequency, y / scale2 * frequency) * amplitude;
-            maxValue += amplitude;
-            amplitude *= 0.5;
-            frequency *= 2;
-          }
-          noiseVal = total / maxValue;
-        }
-        values.push(noiseVal);
-      }
-    }
-    const sorted = [...values].sort((a, b) => a - b);
-    const cutoff = sorted[Math.floor((1 - fullness) * sorted.length)];
-    const grid = [];
-    let idx = 0;
-    for (let y = 0; y < height2; y++) {
-      const row = [];
-      for (let x = 0; x < width2; x++) {
-        row.push(values[idx++] > cutoff ? 1 : 0);
-      }
-      grid.push(row);
-    }
-    return grid;
-  }
-<<<<<<< HEAD
-  var WORLD_WIDTH = 15;
-  var WORLD_WIDTH_REDUCED = (WORLD_WIDTH - 1) / 2;
-  var WORLD_HEIGHT = 11;
-  var WORLD_HEIGHT_REDUCED = (WORLD_HEIGHT - 1) / 2;
-  var WORLD_CORE_REDUCED = generatePerlinBinary(WORLD_WIDTH_REDUCED, WORLD_HEIGHT_REDUCED, 0.45, 0, true);
-  var WORLD_CORE = expandReducedToWorld(WORLD_CORE_REDUCED, WORLD_WIDTH, WORLD_HEIGHT, 0);
-  console.log(WORLD_CORE_REDUCED.map((r) => r.join(" ")).join("\n"));
-=======
   var WORLD_CORE;
   var WORLD_WIDTH = 25;
   var WORLD_HEIGHT = 19;
-  WORLD_CORE = generatePerlinBinary(WORLD_WIDTH, WORLD_HEIGHT, 0.45, 0, true);
->>>>>>> 3567321 (AAAAAAAAAAAAAAAAAh)
+  WORLD_CORE = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    [1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    [1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1],
+    [0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0],
+    [0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0],
+    [0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0],
+    [0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0],
+    [0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0],
+    [0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0],
+    [0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0],
+    [0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+    [0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
+  ];
   console.log(WORLD_CORE.map((r) => r.join(" ")).join("\n"));
   var WORLDx3 = [];
   var WORLD_SPRITES = [];
@@ -3998,22 +3889,6 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
   }
   for (let i2 = 0; i2 < WORLD_HEIGHT; i2++) {
     for (let j = 0; j < WORLD_WIDTH; j++) {
-<<<<<<< HEAD
-      if (WORLD_CORE[i2][j] === 0) {
-        if (j > 0 && j < WORLD_WIDTH - 1 && WORLD_CORE[i2][j - 1] === 1 && WORLD_CORE[i2][j + 1] === 1) {
-          WORLD_CORE[i2][j] = 1;
-        }
-        if (i2 > 0 && i2 < WORLD_HEIGHT - 1 && WORLD_CORE[i2 - 1][j] === 1 && WORLD_CORE[i2 + 1][j] === 1) {
-          WORLD_CORE[i2][j] = 1;
-        }
-      }
-    }
-  }
-  console.log(WORLD_CORE.map((r) => r.join(" ")).join("\n"));
-  for (let i2 = 0; i2 < WORLD_HEIGHT; i2++) {
-    for (let j = 0; j < WORLD_WIDTH; j++) {
-=======
->>>>>>> 3567321 (AAAAAAAAAAAAAAAAAh)
       let cell = "";
       if (WORLD_CORE[i2][j] == 1) {
         let core = strTo3x3("000010000");
@@ -4057,43 +3932,19 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
             core[2][2] = 1;
           }
         }
-<<<<<<< HEAD
         cell = T3x3Tostr(core);
-=======
-        let newcell = [];
-        for (let ii = 0; ii < 5; ii++) {
-          newcell.push([]);
-          for (let jj = 0; jj < 5; jj++) {
-            newcell[ii].push(0);
-          }
-        }
-        for (let ii = 0; ii < 3; ii++) {
-          for (let jj = 0; jj < 3; jj++) {
-            newcell[ii + 1][jj + 1] = core[ii][jj];
-          }
-        }
-        cell = T3x3Tostr([
-          [newcell[1][1], newcell[1][2], newcell[1][3]],
-          [newcell[2][1], newcell[2][2], newcell[2][3]],
-          [newcell[3][1], newcell[3][2], newcell[3][3]]
-        ]);
->>>>>>> 3567321 (AAAAAAAAAAAAAAAAAh)
       } else {
         cell = "000000000";
       }
       WORLDx3[i2][j] = cell;
     }
   }
-<<<<<<< HEAD
-  console.log(WORLDx3.map((r) => r.join(" ")).join("\n"));
-=======
->>>>>>> 3567321 (AAAAAAAAAAAAAAAAAh)
   for (let i2 = 0; i2 < WORLD_HEIGHT; i2++) {
     for (let j = 0; j < WORLD_WIDTH; j++) {
       if (isInside(WORLDx3[i2][j], Object.keys(GRASS_ANIMS))) {
         WORLD_SPRITES[i2][j] = add([
           sprite("grass", { anim: WORLDx3[i2][j], frame: 0 }),
-          scale(4),
+          scale(8),
           posify(j * 64, i2 * 64),
           anchor("topleft")
         ]);
