@@ -133,6 +133,7 @@ function mulberry32(a: number): () => number {
     };
 }
 
+<<<<<<< HEAD
 function expandReducedToWorld(reduced: number[][], fullWidth: number, fullHeight: number, barrierValue = 0): number[][] {
     const reducedH = reduced.length;
     const reducedW = reducedH > 0 ? reduced[0].length : 0;
@@ -165,6 +166,8 @@ function expandReducedToWorld(reduced: number[][], fullWidth: number, fullHeight
     return full;
 }
 
+=======
+>>>>>>> 3567321 (AAAAAAAAAAAAAAAAAh)
 // --- Perlin Noise Implementation ---
 class Perlin {
     private perm: number[];
@@ -274,6 +277,7 @@ function generatePerlinBinary(width: number, height: number, fullness: number, s
 // console.log(map.map(r => r.join(" ")).join("\n"));
 
 
+<<<<<<< HEAD
 const WORLD_WIDTH = 15;//25;
 const WORLD_WIDTH_REDUCED = (WORLD_WIDTH-1)/2;
 const WORLD_HEIGHT = 11;//19;
@@ -283,12 +287,20 @@ var WORLD_CORE = expandReducedToWorld(WORLD_CORE_REDUCED, WORLD_WIDTH, WORLD_HEI
 console.log(WORLD_CORE_REDUCED.map(r => r.join(" ")).join("\n"));
 console.log(WORLD_CORE.map(r => r.join(" ")).join("\n"));
 
+=======
+var WORLD_CORE;
+const WORLD_WIDTH = 25;
+const WORLD_HEIGHT = 19;
+WORLD_CORE = generatePerlinBinary(WORLD_WIDTH, WORLD_HEIGHT, 0.45, 0, true);
+console.log(WORLD_CORE.map(r => r.join(" ")).join("\n"));
+>>>>>>> 3567321 (AAAAAAAAAAAAAAAAAh)
 var WORLDx3: string[][] = [];
 var WORLD_SPRITES: any[][] = [];
 for (let i = 0; i < WORLD_HEIGHT; i++) {
     WORLDx3.push([]);
     WORLD_SPRITES.push([]);
 }
+<<<<<<< HEAD
 
 
 // --- Bridge WORLD_CORE: fill gaps horizontally, vertically, diagonally ---
@@ -317,6 +329,8 @@ for (let i = 0; i < WORLD_HEIGHT; i++) {
     }
 }
 console.log(WORLD_CORE.map(r => r.join(" ")).join("\n"));
+=======
+>>>>>>> 3567321 (AAAAAAAAAAAAAAAAAh)
 for (let i = 0; i < WORLD_HEIGHT; i++) {
     for (let j = 0; j < WORLD_WIDTH; j++) {
         let cell = "";
@@ -364,7 +378,27 @@ for (let i = 0; i < WORLD_HEIGHT; i++) {
                     core[2][2] = 1;
                 }
             }
+<<<<<<< HEAD
             cell = T3x3Tostr(core);
+=======
+            let newcell: number[][] = [];
+            for (let ii = 0; ii < 5; ii++) {
+                newcell.push([]);
+                for (let jj = 0; jj < 5; jj++) {
+                    newcell[ii].push(0);
+                }
+            }
+            for (let ii = 0; ii < 3; ii++) {
+                for (let jj = 0; jj < 3; jj++) {
+                    newcell[ii+1][jj+1] = core[ii][jj];
+                }
+            }
+            cell = T3x3Tostr([
+                [newcell[1][1], newcell[1][2], newcell[1][3]],
+                [newcell[2][1], newcell[2][2], newcell[2][3]],
+                [newcell[3][1], newcell[3][2], newcell[3][3]],
+            ]);
+>>>>>>> 3567321 (AAAAAAAAAAAAAAAAAh)
         
         } else {
             cell = "000000000";
@@ -372,7 +406,10 @@ for (let i = 0; i < WORLD_HEIGHT; i++) {
         WORLDx3[i][j] = cell;
     }
 }
+<<<<<<< HEAD
 console.log(WORLDx3.map(r => r.join(" ")).join("\n"));
+=======
+>>>>>>> 3567321 (AAAAAAAAAAAAAAAAAh)
 
 
 for (let i = 0; i < WORLD_HEIGHT; i++) {
