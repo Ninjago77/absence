@@ -133,6 +133,38 @@ function mulberry32(a: number): () => number {
     };
 }
 
+function expandReducedToWorld(reduced: number[][], fullWidth: number, fullHeight: number, barrierValue = 0): number[][] {
+    const reducedH = reduced.length;
+    const reducedW = reducedH > 0 ? reduced[0].length : 0;
+    const expectedW = Math.floor((fullWidth - 1) / 2);
+    const expectedH = Math.floor((fullHeight - 1) / 2);
+
+    if (reducedW !== expectedW || reducedH !== expectedH) {
+        throw new Error(`Reduced grid size mismatch. Expected ${expectedH}x${expectedW}, got ${reducedH}x${reducedW}`);
+    }
+
+    const full: number[][] = [];
+    for (let y = 0; y < fullHeight; y++) {
+        const row: number[] = [];
+        if (y % 2 === 0) {
+            // barrier row
+            for (let x = 0; x < fullWidth; x++) row.push(barrierValue);
+        } else {
+            // data row with barrier columns
+            for (let x = 0; x < fullWidth; x++) {
+                if (x % 2 === 0) row.push(barrierValue);
+                else {
+                    const ry = (y - 1) / 2;
+                    const rx = (x - 1) / 2;
+                    row.push(reduced[ry][rx]);
+                }
+            }
+        }
+        full.push(row);
+    }
+    return full;
+}
+
 // --- Perlin Noise Implementation ---
 class Perlin {
     private perm: number[];
@@ -242,17 +274,49 @@ function generatePerlinBinary(width: number, height: number, fullness: number, s
 // console.log(map.map(r => r.join(" ")).join("\n"));
 
 
-var WORLD_CORE;
-const WORLD_WIDTH = 25;
-const WORLD_HEIGHT = 19;
-WORLD_CORE = generatePerlinBinary(WORLD_WIDTH, WORLD_HEIGHT, 0.45, 0, true);
+const WORLD_WIDTH = 15;//25;
+const WORLD_WIDTH_REDUCED = (WORLD_WIDTH-1)/2;
+const WORLD_HEIGHT = 11;//19;
+const WORLD_HEIGHT_REDUCED = (WORLD_HEIGHT-1)/2;
+var WORLD_CORE_REDUCED = generatePerlinBinary(WORLD_WIDTH_REDUCED, WORLD_HEIGHT_REDUCED, 0.45, 0, true);
+var WORLD_CORE = expandReducedToWorld(WORLD_CORE_REDUCED, WORLD_WIDTH, WORLD_HEIGHT, 0);
+console.log(WORLD_CORE_REDUCED.map(r => r.join(" ")).join("\n"));
 console.log(WORLD_CORE.map(r => r.join(" ")).join("\n"));
+
 var WORLDx3: string[][] = [];
 var WORLD_SPRITES: any[][] = [];
 for (let i = 0; i < WORLD_HEIGHT; i++) {
     WORLDx3.push([]);
     WORLD_SPRITES.push([]);
 }
+
+
+// --- Bridge WORLD_CORE: fill gaps horizontally, vertically, diagonally ---
+for (let i = 0; i < WORLD_HEIGHT; i++) {
+    for (let j = 0; j < WORLD_WIDTH; j++) {
+        if (WORLD_CORE[i][j] === 0) {
+            // horizontal: 101 -> 111
+            if (j > 0 && j < WORLD_WIDTH - 1 && WORLD_CORE[i][j-1] === 1 && WORLD_CORE[i][j+1] === 1) {
+                WORLD_CORE[i][j] = 1;
+            }
+            // vertical: 101 -> 111
+            if (i > 0 && i < WORLD_HEIGHT - 1 && WORLD_CORE[i-1][j] === 1 && WORLD_CORE[i+1][j] === 1) {
+                WORLD_CORE[i][j] = 1;
+            }
+            // // diagonal top-left → bottom-right
+            // if (i > 0 && i < WORLD_HEIGHT - 1 && j > 0 && j < WORLD_WIDTH - 1 &&
+            //     WORLD_CORE[i-1][j-1] === 1 && WORLD_CORE[i+1][j+1] === 1) {
+            //     WORLD_CORE[i][j] = 1;
+            // }
+            // // diagonal top-right → bottom-left
+            // if (i > 0 && i < WORLD_HEIGHT - 1 && j > 0 && j < WORLD_WIDTH - 1 &&
+            //     WORLD_CORE[i-1][j+1] === 1 && WORLD_CORE[i+1][j-1] === 1) {
+            //     WORLD_CORE[i][j] = 1;
+            // }
+        }
+    }
+}
+console.log(WORLD_CORE.map(r => r.join(" ")).join("\n"));
 for (let i = 0; i < WORLD_HEIGHT; i++) {
     for (let j = 0; j < WORLD_WIDTH; j++) {
         let cell = "";
@@ -300,23 +364,7 @@ for (let i = 0; i < WORLD_HEIGHT; i++) {
                     core[2][2] = 1;
                 }
             }
-            let newcell: number[][] = [];
-            for (let ii = 0; ii < 5; ii++) {
-                newcell.push([]);
-                for (let jj = 0; jj < 5; jj++) {
-                    newcell[ii].push(0);
-                }
-            }
-            for (let ii = 0; ii < 3; ii++) {
-                for (let jj = 0; jj < 3; jj++) {
-                    newcell[ii+1][jj+1] = core[ii][jj];
-                }
-            }
-            cell = T3x3Tostr([
-                [newcell[1][1], newcell[1][2], newcell[1][3]],
-                [newcell[2][1], newcell[2][2], newcell[2][3]],
-                [newcell[3][1], newcell[3][2], newcell[3][3]],
-            ]);
+            cell = T3x3Tostr(core);
         
         } else {
             cell = "000000000";
@@ -324,6 +372,7 @@ for (let i = 0; i < WORLD_HEIGHT; i++) {
         WORLDx3[i][j] = cell;
     }
 }
+console.log(WORLDx3.map(r => r.join(" ")).join("\n"));
 
 
 for (let i = 0; i < WORLD_HEIGHT; i++) {
