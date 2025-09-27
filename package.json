@@ -10,6 +10,7 @@
   "description": "",
   "dependencies": {
     "esbuild": "^0.25.10",
+    "kaboom": "^3000.1.17",
     "kaplay": "^3001.0.19"
   }
 }
