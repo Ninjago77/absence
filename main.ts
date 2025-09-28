@@ -91,8 +91,8 @@ loadSprite("player", linkload("Characters/Basic Charakter Spritesheet.png"), {
     sliceX: 4,
     sliceY: 4,
     anims: {
-        "up": { from: 0, to: 3, loop: true, speed: 10 },
-        "down": { from: 4, to: 7, loop: true, speed: 10 },
+        "down": { from: 0, to: 3, loop: true, speed: 10 },
+        "up": { from: 4, to: 7, loop: true, speed: 10 },
         "left": { from: 8, to: 11, loop: true, speed: 10 },
         "right": { from: 12, to: 15, loop: true, speed: 10 },
         "idle": { from: 0, to: 0, loop: false, speed: 10 },
