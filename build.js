@@ -5385,11 +5385,11 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
     }
   });
   loadSprite("chicken", linkload("Characters/Free Chicken Sprites.png"), {
-    sliceX: 3,
+    sliceX: 4,
     sliceY: 2,
     anims: {
-      "idle": { from: 0, to: 2, loop: true, speed: 5 },
-      "walkright": { from: 3, to: 4, loop: true, speed: 5 }
+      "idle": { from: 0, to: 1, loop: true, speed: 5 },
+      "walkright": { from: 4, to: 7, loop: true, speed: 5 }
     }
   });
   loadSprite("egg", linkload("Characters/Egg_And_Nest.png"), {
