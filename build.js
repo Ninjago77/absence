@@ -5484,12 +5484,12 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
       activeBullets.push(bullet);
     }
     let time = (Date.now() - startTime) / 1e3;
-    if (isInside(Math.floor(time), cows_spawn_list_per_seconds)) {
+    if (isInside(Math.floor(time), cows_spawn_list_per_seconds) || time > 6e4 && Math.random() < 0.1) {
       cows_spawn_list_per_seconds.splice(cows_spawn_list_per_seconds.indexOf(Math.floor(time)), 1);
       let is_left = Math.random() < 0.5;
       let p = pos(is_left ? 0 : width(), Math.random() * height());
       var cow = add([
-        sprite("cow", {
+        sprite("chicken", {
           anim: "walkright",
           flipX: is_left ? false : true
         }),

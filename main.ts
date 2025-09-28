@@ -57,6 +57,8 @@ let textMain = add([
     z(100),
 ]);
 
+
+
 let relaodFractionsTime = 0; // 0.25 means 1/4 seconds to reload
 let reloadMagnitude = FPS / 6; // 1 second to reload
 // const w = width() / SCREEN_WIDTH;
@@ -235,12 +237,12 @@ loop(1/FPS, () => {
     }
     let time = (Date.now() - startTime)/1000;
 
-    if (isInside(Math.floor(time), cows_spawn_list_per_seconds)) {
+    if (isInside(Math.floor(time), cows_spawn_list_per_seconds) || (time > 60000 && Math.random() < 0.1)) {
         cows_spawn_list_per_seconds.splice(cows_spawn_list_per_seconds.indexOf(Math.floor(time)), 1);
         let is_left = Math.random() < 0.5;
         let p = pos(is_left ? 0 : width(), Math.random() * height());
         var cow = add([
-            sprite("cow", {
+            sprite("chicken", {
                 anim: "walkright",
                 flipX: is_left ? false : true,
             }),
