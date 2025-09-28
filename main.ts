@@ -26,6 +26,9 @@ let gameover = false;
 let cows_spawn_list_per_seconds = [
     1,2,5,7,10,,13,15,16,20,,22,25,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50
 ];
+for (let i = 51; i <= 300; i++) {
+    cows_spawn_list_per_seconds.push(i);
+}
 let chickens_spawn_list_per_seconds = [
     5,10,15,20,25,30,35,40,45,50
 ]

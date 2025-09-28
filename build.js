@@ -5317,6 +5317,9 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
     49,
     50
   ];
+  for (let i = 51; i <= 300; i++) {
+    cows_spawn_list_per_seconds.push(i);
+  }
   var textSave = add([]);
   var textLost = add([
     text("Eggs Lost: 0", { size }),
