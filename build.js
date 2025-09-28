@@ -5280,6 +5280,7 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
   var activeBullets = [];
   var activeCows = [];
   var activeEggs = [];
+  var gameover = false;
   var cows_spawn_list_per_seconds = [
     1,
     2,
@@ -5435,6 +5436,9 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
     rotate(0)
   ]);
   loop(1 / FPS, () => {
+    if (gameover) {
+      return;
+    }
     gunIndex = gunIndex % guns.length;
     let MPos = mousePos();
     if (relaodFractionsTime > 0) {
