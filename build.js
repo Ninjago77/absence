@@ -1735,7 +1735,7 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
     function N(f) {
       return e.events.on("charInput", f);
     }
-    function z2(f) {
+    function z(f) {
       return e.events.on("touchStart", f);
     }
     function oe(f) {
@@ -1941,7 +1941,7 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
         });
       }
     });
-    return To.observe(e.canvas), { state: e, dt: n, fixedDt: r, restDt: o, time: i, run: A, canvas: e.canvas, fps: m, numFrames: u, quit: O, isHidden: s, setFullscreen: g, isFullscreen: y, setCursor: p, screenshot: c, getGamepads: zt, getCursor: b, setCursorLocked: l, isCursorLocked: h, isTouchscreen: R, mousePos: V, mouseDeltaPos: x, isKeyDown: U, isKeyPressed: D, isKeyPressedRepeat: L, isKeyReleased: H, isMouseDown: S, isMousePressed: w, isMouseReleased: G, isMouseMoved: M, isGamepadButtonPressed: Y, isGamepadButtonDown: _, isGamepadButtonReleased: K, getGamepadStick: Xe, isButtonPressed: J, isButtonDown: $, isButtonReleased: Z, setButton: k, getButton: Ee, pressButton: gt, releaseButton: Gt, charInputted: ct, onResize: Ht, onKeyDown: yn, onKeyPress: xn, onKeyPressRepeat: mr, onKeyRelease: pr, onMouseDown: Mt, onMousePress: $e, onMouseRelease: vn, onMouseMove: F, onCharInput: N, onTouchStart: z2, onTouchMove: oe, onTouchEnd: ye, onScroll: Q, onHide: ve, onShow: qt, onGamepadButtonDown: dr, onGamepadButtonPress: ut, onGamepadButtonRelease: fr, onGamepadStick: hr, onGamepadConnect: gr, onGamepadDisconnect: wn, onButtonPress: Ie, onButtonDown: Wt, onButtonRelease: Je, getLastInputDeviceType: Vs, events: e.events };
+    return To.observe(e.canvas), { state: e, dt: n, fixedDt: r, restDt: o, time: i, run: A, canvas: e.canvas, fps: m, numFrames: u, quit: O, isHidden: s, setFullscreen: g, isFullscreen: y, setCursor: p, screenshot: c, getGamepads: zt, getCursor: b, setCursorLocked: l, isCursorLocked: h, isTouchscreen: R, mousePos: V, mouseDeltaPos: x, isKeyDown: U, isKeyPressed: D, isKeyPressedRepeat: L, isKeyReleased: H, isMouseDown: S, isMousePressed: w, isMouseReleased: G, isMouseMoved: M, isGamepadButtonPressed: Y, isGamepadButtonDown: _, isGamepadButtonReleased: K, getGamepadStick: Xe, isButtonPressed: J, isButtonDown: $, isButtonReleased: Z, setButton: k, getButton: Ee, pressButton: gt, releaseButton: Gt, charInputted: ct, onResize: Ht, onKeyDown: yn, onKeyPress: xn, onKeyPressRepeat: mr, onKeyRelease: pr, onMouseDown: Mt, onMousePress: $e, onMouseRelease: vn, onMouseMove: F, onCharInput: N, onTouchStart: z, onTouchMove: oe, onTouchEnd: ye, onScroll: Q, onHide: ve, onShow: qt, onGamepadButtonDown: dr, onGamepadButtonPress: ut, onGamepadButtonRelease: fr, onGamepadStick: hr, onGamepadConnect: gr, onGamepadDisconnect: wn, onButtonPress: Ie, onButtonDown: Wt, onButtonRelease: Je, getLastInputDeviceType: Vs, events: e.events };
   };
   function ee() {
     return a.app.dt();
@@ -5072,11 +5072,11 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
     let y = ea();
     a.game = y, y.root.use(gn());
     function O(F, N) {
-      let z2 = new st(h, F, N);
-      return { clear: () => z2.clear(), free: () => z2.free(), toDataURL: () => z2.toDataURL(), toImageData: () => z2.toImageData(), width: z2.width, height: z2.height, draw: (oe) => {
-        Ce(), z2.bind(), oe(), Ce(), z2.unbind();
+      let z = new st(h, F, N);
+      return { clear: () => z.clear(), free: () => z.free(), toDataURL: () => z.toDataURL(), toImageData: () => z.toImageData(), width: z.width, height: z.height, draw: (oe) => {
+        Ce(), z.bind(), oe(), Ce(), z.unbind();
       }, get fb() {
-        return z2;
+        return z;
       } };
     }
     function A() {
@@ -5097,8 +5097,8 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
     }, get timeScale() {
       return a.app.state.timeScale;
     }, showLog: true, fps: () => c.fps(), numFrames: () => c.numFrames(), stepFrame: Gt, drawCalls: () => d.lastDrawCalls, clearLog: () => y.logs = [], log: (...F) => {
-      let N = t18.logMax ?? 8, z2 = F.length > 1 ? F.concat(" ").join(" ") : F[0];
-      y.logs.unshift({ msg: z2, time: c.time() }), y.logs.length > N && (y.logs = y.logs.slice(0, N));
+      let N = t18.logMax ?? 8, z = F.length > 1 ? F.concat(" ").join(" ") : F[0];
+      y.logs.unshift({ msg: z, time: c.time() }), y.logs.length > N && (y.logs = y.logs.slice(0, N));
     }, error: (F) => w.log(new Error(F.toString ? F.toString() : F)), curRecording: null, numObjects: () => _("*", { recursive: true }).length, get paused() {
       return x;
     }, set paused(F) {
@@ -5116,25 +5116,25 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
       window.localStorage[F] = JSON.stringify(N);
     }
     function M(F, ...N) {
-      let z2 = F($e), oe;
-      typeof z2 == "function" ? oe = z2(...N)($e) : oe = z2;
+      let z = F($e), oe;
+      typeof z == "function" ? oe = z(...N)($e) : oe = z;
       for (let ye in oe) $e[ye] = oe[ye], t18.global !== false && (window[ye] = oe[ye]);
       return $e;
     }
     function D(F) {
-      let N = c.canvas.captureStream(F), z2 = C.ctx.createMediaStreamDestination();
-      C.masterNode.connect(z2);
+      let N = c.canvas.captureStream(F), z = C.ctx.createMediaStreamDestination();
+      C.masterNode.connect(z);
       let oe = new MediaRecorder(N), ye = [];
       return oe.ondataavailable = (Q) => {
         Q.data.size > 0 && ye.push(Q.data);
       }, oe.onerror = () => {
-        C.masterNode.disconnect(z2), N.getTracks().forEach((Q) => Q.stop());
+        C.masterNode.disconnect(z), N.getTracks().forEach((Q) => Q.stop());
       }, oe.start(), { resume() {
         oe.resume();
       }, pause() {
         oe.pause();
       }, stop() {
-        return oe.stop(), C.masterNode.disconnect(z2), N.getTracks().forEach((Q) => Q.stop()), new Promise((Q) => {
+        return oe.stop(), C.masterNode.disconnect(z), N.getTracks().forEach((Q) => Q.stop()), new Promise((Q) => {
           oe.onstop = () => {
             Q(new Blob(ye, { type: "video/mp4" }));
           };
@@ -5160,8 +5160,8 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
       normal;
       distance;
       resolved = false;
-      constructor(N, z2, oe, ye, Q = false) {
-        this.source = N, this.target = z2, this.normal = oe, this.distance = ye, this.resolved = Q;
+      constructor(N, z, oe, ye, Q = false) {
+        this.source = N, this.target = z, this.normal = oe, this.distance = ye, this.resolved = Q;
       }
       get displacement() {
         return this.normal.scale(this.distance);
@@ -5190,9 +5190,9 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
     }
     function yn() {
       if (!Ma()) return;
-      let F = {}, N = t18.hashGridSize || 64, z2 = new fe(), oe = [];
+      let F = {}, N = t18.hashGridSize || 64, z = new fe(), oe = [];
       function ye(Q) {
-        if (oe.push(z2.clone()), Q.pos && z2.translate(Q.pos), Q.scale && z2.scale(Q.scale), Q.angle && z2.rotate(Q.angle), Q.transform = z2.clone(), Q.c("area") && !Q.paused) {
+        if (oe.push(z.clone()), Q.pos && z.translate(Q.pos), Q.scale && z.scale(Q.scale), Q.angle && z.rotate(Q.angle), Q.transform = z.clone(), Q.c("area") && !Q.paused) {
           let ve = Q, ut = ve.worldArea().bbox(), dr = Math.floor(ut.pos.x / N), fr = Math.floor(ut.pos.y / N), hr = Math.ceil((ut.pos.x + ut.width) / N), gr = Math.ceil((ut.pos.y + ut.height) / N), wn = /* @__PURE__ */ new Set();
           for (let Xe = dr; Xe <= hr; Xe++) for (let ct = fr; ct <= gr; ct++) if (!F[Xe]) F[Xe] = {}, F[Xe][ct] = [ve];
           else if (!F[Xe][ct]) F[Xe][ct] = [ve];
@@ -5214,7 +5214,7 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
             zt.push(ve);
           }
         }
-        Q.children.forEach(ye), z2 = oe.pop();
+        Q.children.forEach(ye), z = oe.pop();
       }
       ye(y.root);
     }
@@ -5251,9 +5251,9 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
       }
     }, (F, N) => {
       try {
-        F(), g.loaded || Be() === 1 && !Mt && (g.loaded = true, Un().forEach((z2) => y.events.trigger("loadError", ...z2)), y.events.trigger("load")), !g.loaded && t18.loadingScreen !== false || Mt ? (A(), hi(), V()) : (w.paused || Gt(), yn(), A(), fi(), t18.debug !== false && di(), V()), Mt && (Mt = false), y.events.trigger("frameEnd"), N();
-      } catch (z2) {
-        xn(z2);
+        F(), g.loaded || Be() === 1 && !Mt && (g.loaded = true, Un().forEach((z) => y.events.trigger("loadError", ...z)), y.events.trigger("load")), !g.loaded && t18.loadingScreen !== false || Mt ? (A(), hi(), V()) : (w.paused || Gt(), yn(), A(), fi(), t18.debug !== false && di(), V()), Mt && (Mt = false), y.events.trigger("frameEnd"), N();
+      } catch (z) {
+        xn(z);
       }
     }), jn(), cr();
     let $e = { _k: a, VERSION: sc, loadRoot: Us, loadProgress: Be, loadSprite: Ot, loadSpriteAtlas: $r, loadSound: si, loadMusic: ii, loadBitmapFont: Zs, loadFont: Qs, loadShader: ni, loadShaderURL: ri, loadAseprite: Xs, loadPedit: ei, loadBean: $s, loadJSON: Hs, load: cn, getSound: Yr, getFont: qr, getBitmapFont: Hn, getSprite: Nr, getShader: Wr, getAsset: qs, Asset: ce, SpriteData: Fe, SoundData: ot, width: ie, height: ue, center: Ct, dt: ee, fixedDt: an, restDt: un, time: c.time, screenshot: c.screenshot, record: D, isFocused: L, setCursor: c.setCursor, getCursor: c.getCursor, setCursorLocked: c.setCursorLocked, isCursorLocked: c.isCursorLocked, setFullscreen: c.setFullscreen, isFullscreen: c.isFullscreen, isTouchscreen: c.isTouchscreen, onLoad: Nt, onLoadError: zi, onLoading: Ui, onResize: Hi, onGamepadConnect: c.onGamepadConnect, onGamepadDisconnect: c.onGamepadDisconnect, onError: qi, onCleanup: mr, flash: co, setCamPos: ro, getCamPos: oo, setCamRot: ao, getCamRot: uo, setCamScale: so, getCamScale: io, getCamTransform: Wi, camPos: Xi, camScale: Qi, camFlash: Zi, camRot: Ji, camTransform: Yi, shake: $i, toScreen: pn, toWorld: sr, setGravity: ta, getGravity: na, setGravityDirection: ra, getGravityDirection: ht, setBackground: Is, getBackground: Ks, getGamepads: c.getGamepads, getTreeRoot: da, add: U, make: dn, destroy: ir, destroyAll: Y, get: _, query: $, readd: H, pos: Pt, scale: Ut, rotate: qa, color: Jn, opacity: Zn, anchor: hn, area: Ra, sprite: fn, text: ya, polygon: Ai, rect: tr, circle: vi, uvquad: xa, outline: Ti, particles: Oi, body: Da, platformEffector: Ka, surfaceEffector: Fa, areaEffector: La, pointEffector: ja, buoyancyEffector: ka, constantForce: Ia, doubleJump: Ba, shader: Si, textInput: Ga, timer: gn, fixed: ar, stay: lr, health: Aa, lifespan: Sa, named: Va, state: Pa, z: za, layer: Na, move: Ua, offscreen: Ha, follow: _a, fadeIn: Ci, mask: Ei, drawon: wi, raycast: er, tile: nr, animate: Oa, serializeAnimation: yo, agent: va, sentry: Ea, patrol: Ca, pathfinder: wa, trigger: Pi, on: Ge, onFixedUpdate: Gi, onUpdate: rr, onDraw: Mi, onAdd: to, onDestroy: Ri, onTag: no, onUntag: Fi, onUse: Di, onUnuse: Bi, onClick: Ki, onCollide: Li, onCollideUpdate: ji, onCollideEnd: Ii, onHover: ki, onHoverUpdate: _i, onHoverEnd: Ni, onKeyDown: c.onKeyDown, onKeyPress: c.onKeyPress, onKeyPressRepeat: c.onKeyPressRepeat, onKeyRelease: c.onKeyRelease, onMouseDown: c.onMouseDown, onMousePress: c.onMousePress, onMouseRelease: c.onMouseRelease, onMouseMove: c.onMouseMove, onCharInput: c.onCharInput, onTouchStart: c.onTouchStart, onTouchMove: c.onTouchMove, onTouchEnd: c.onTouchEnd, onScroll: c.onScroll, onHide: c.onHide, onShow: c.onShow, onGamepadButtonDown: c.onGamepadButtonDown, onGamepadButtonPress: c.onGamepadButtonPress, onGamepadButtonRelease: c.onGamepadButtonRelease, onGamepadStick: c.onGamepadStick, onButtonPress: c.onButtonPress, onButtonDown: c.onButtonDown, onButtonRelease: c.onButtonRelease, mousePos: c.mousePos, mouseDeltaPos: c.mouseDeltaPos, isKeyDown: c.isKeyDown, isKeyPressed: c.isKeyPressed, isKeyPressedRepeat: c.isKeyPressedRepeat, isKeyReleased: c.isKeyReleased, isMouseDown: c.isMouseDown, isMousePressed: c.isMousePressed, isMouseReleased: c.isMouseReleased, isMouseMoved: c.isMouseMoved, isGamepadButtonPressed: c.isGamepadButtonPressed, isGamepadButtonDown: c.isGamepadButtonDown, isGamepadButtonReleased: c.isGamepadButtonReleased, getGamepadStick: c.getGamepadStick, isButtonPressed: c.isButtonPressed, isButtonDown: c.isButtonDown, isButtonReleased: c.isButtonReleased, setButton: c.setButton, getButton: c.getButton, pressButton: c.pressButton, releaseButton: c.releaseButton, getLastInputDeviceType: c.getLastInputDeviceType, charInputted: c.charInputted, loop: J, wait: K, play: aa, setVolume: lo, getVolume: mo, volume: ua, burp: ur, audioCtx: C.ctx, Line: Oe, Rect: W, Circle: we, Ellipse: Ke, Point: On, Polygon: be, Vec2: E, Color: j, Mat4: fe, Quad: q, RNG: Xt, rand: he, randi: Cr, randSeed: Go, vec2: v, rgb: I, hsl2rgb: So, quad: le, choose: Do, chooseMultiple: Ro, shuffle: Er, chance: Mo, lerp: de, tween: Z, easings: nt, map: Se, mapc: Po, wave: An, deg2rad: ae, rad2deg: lt, clamp: Te, evaluateQuadratic: No, evaluateQuadraticFirstDerivative: Uo, evaluateQuadraticSecondDerivative: Ho, evaluateBezier: Jt, evaluateBezierFirstDerivative: qo, evaluateBezierSecondDerivative: zo, evaluateCatmullRom: Wo, evaluateCatmullRomFirstDerivative: Yo, curveLengthApproximation: Vr, normalizedCurve: $o, hermite: Lt, cardinal: Pr, catmullRom: jt, bezier: Xo, kochanekBartels: Qo, easingSteps: ts, easingLinear: Zo, easingCubicBezier: es, testLineLine: Sn, testRectRect: Tr, testRectLine: Vn, testRectPoint: Bt, testCirclePolygon: Qt, testLinePoint: Pn, testLineCircle: Ft, isConvex: os, triangulate: Mn, NavMesh: kn, drawSprite: bi, drawText: Zr, formatText: Ue, drawRect: xe, drawLine: _t, drawLines: kt, drawTriangle: Xn, drawCircle: Ne, drawEllipse: zn, drawUVQuad: it, drawPolygon: Pe, drawCurve: Wn, drawBezier: ai, drawFormattedText: He, drawMasked: gi, drawSubtracted: yi, pushTransform: ge, popTransform: me, pushTranslate: X, pushScale: rt, pushRotate: Ye, pushMatrix: ks, usePostEffect: R, makeCanvas: O, debug: w, scene: fa, getSceneName: ba, go: ha, onSceneLeave: ga, layers: pa, getLayers: la, setLayers: fo, getDefaultLayer: ma, addLevel: Vi, getData: S, setData: G, download: Bn, downloadJSON: xs, downloadText: Mr, downloadBlob: Rr, plug: M, ASCII_CHARS: Rn, canvas: c.canvas, addKaboom: ca, LEFT: E.LEFT, RIGHT: E.RIGHT, UP: E.UP, DOWN: E.DOWN, RED: j.RED, GREEN: j.GREEN, BLUE: j.BLUE, YELLOW: j.YELLOW, MAGENTA: j.MAGENTA, CYAN: j.CYAN, WHITE: j.WHITE, BLACK: j.BLACK, quit: pr, KEvent: re, KEventHandler: ze, KEventController: ke, cancel: () => Dn };
@@ -5266,357 +5266,165 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
 
   // main.ts
   hw();
-  var startTime = Date.now();
-  var FPS = 60;
-  var speed = 4;
-  var facing = "idle";
-  var gundist = 32;
-  var bSize = 16;
-  var gunIndex = 0;
-  var anglediffmagnitude = 2;
-  var size = 32;
-  var bulletLoaded = false;
-  var angleOffset = 3;
-  var activeBullets = [];
-  var activeCows = [];
-  var activeEggs = [];
-  var gameover = false;
-  var cows_spawn_list_per_seconds = [
-    1,
-    2,
-    5,
-    7,
-    10,
-    ,
-    13,
-    15,
-    16,
-    20,
-    ,
-    22,
-    25,
-    30,
-    31,
-    32,
-    33,
-    34,
-    35,
-    36,
-    37,
-    38,
-    39,
-    40,
-    41,
-    42,
-    43,
-    44,
-    45,
-    46,
-    47,
-    48,
-    49,
-    50
-  ];
-  for (let i = 51; i <= 300; i++) {
-    cows_spawn_list_per_seconds.push(i);
-  }
-  var textSave = add([]);
-  var textLost = add([
-    text("Eggs Lost: 0", { size }),
-    pos(width() - size, size / 2),
-    anchor("topright"),
-    color(255, 255, 255),
-    z(100)
-  ]);
-  var textSaved = add([
-    text("Eggs Saved: 0", { size }),
-    pos(width() - size, size * 2),
-    anchor("topright"),
-    color(255, 255, 255),
-    z(100)
-  ]);
-  var textMain = add([
-    text("Absence - Loss of the Chickens", { size }),
-    pos(size / 2, size / 2),
-    anchor("topleft"),
-    color(255, 255, 255),
-    z(100)
-  ]);
-  var relaodFractionsTime = 0;
-  var reloadMagnitude = FPS / 6;
-  setBackground(150, 150, 225);
-  function isInside(item, array) {
-    return array.indexOf(item) > -1;
-  }
-  function linkload(text2) {
-    return "https://raw.githubusercontent.com/Ninjago77/absence/main/assets/" + text2;
-  }
-  loadSprite("player", linkload("Characters/Basic Charakter Spritesheet.png"), {
-    sliceX: 4,
-    sliceY: 4,
-    anims: {
-      "up": { from: 0, to: 3, loop: true, speed: 10 },
-      "down": { from: 4, to: 7, loop: true, speed: 10 },
-      "left": { from: 8, to: 11, loop: true, speed: 10 },
-      "right": { from: 12, to: 15, loop: true, speed: 10 },
-      "idle": { from: 0, to: 0, loop: false, speed: 10 }
-    }
-  });
-  loadSprite("gun0", linkload("Guns/Luger.png"));
-  loadSprite("gun1", linkload("Guns/M92.png"));
-  loadSprite("gun2", linkload("Guns/MP5.png"));
-  loadSprite("gun3", linkload("Guns/M15.png"));
-  loadSprite("gun4", linkload("Guns/AK47.png"));
-  loadSprite("gun5", linkload("Guns/SawedOffShotgun.png"));
-  loadSprite("gun6", linkload("Guns/Revolver.png"));
-  loadSprite("gun7", linkload("Guns/M24.png"));
-  loadSprite("gun0B", linkload("Bullets/PistolAmmoSmall.png"));
-  loadSprite("gun1B", linkload("Bullets/PistolAmmoSmall.png"));
-  loadSprite("gun2B", linkload("Bullets/PistolAmmoSmall.png"));
-  loadSprite("gun3B", linkload("Bullets/RifleAmmoSmall.png"));
-  loadSprite("gun4B", linkload("Bullets/RifleAmmoBig.png"));
-  loadSprite("gun5B", linkload("Bullets/ShotgunShellBig.png"));
-  loadSprite("gun6B", linkload("Bullets/PistolAmmoBig.png"));
-  loadSprite("gun7B", linkload("Bullets/RifleAmmoBig.png"));
-  var guns = ["gun0", "gun1", "gun2", "gun3", "gun4", "gun5", "gun6", "gun7"];
-  loadSprite("cow", linkload("Characters/Free Cow Sprites.png"), {
-    sliceX: 3,
-    sliceY: 2,
-    anims: {
-      "idle": { from: 0, to: 2, loop: true, speed: 5 },
-      "walkright": { from: 3, to: 4, loop: true, speed: 5 }
-    }
-  });
-  loadSprite("chicken", linkload("Characters/Free Chicken Sprites.png"), {
-    sliceX: 4,
-    sliceY: 2,
-    anims: {
-      "idle": { from: 0, to: 1, loop: true, speed: 5 },
-      "walkright": { from: 4, to: 7, loop: true, speed: 5 }
-    }
-  });
-  loadSprite("egg", linkload("Characters/Egg_And_Nest.png"), {
-    sliceX: 4,
-    sliceY: 1,
-    anims: {
-      "egg": { from: 0, to: 0, loop: false },
-      "eggnest": { from: 2, to: 2, loop: false },
-      "nest": { from: 3, to: 3, loop: false }
-    }
-  });
-  var player = add([
-    sprite("player"),
-    pos(width() / 2, height() / 2),
-    scale(4),
-    anchor("center"),
-    area(),
-    z(20),
-    "player",
-    {
-      anim: "idle"
-    }
-  ]);
-  for (let i = 0; i < 6; i++) {
-    let column = i % 2 === 0 ? -1 : 1;
-    let row = Math.floor(i / 2);
-    let egg = add([
-      sprite("egg", { anim: "eggnest" }),
-      pos(player.pos.x, player.pos.y + column * size * 2 * (row + 1)),
-      anchor("center"),
-      area(),
-      scale(4),
-      z(0),
-      { nice: "eggnest" }
-    ]);
-    activeEggs.push(egg);
-  }
-  var gun = add([
-    sprite("gun0"),
-    pos(player.pos.x + gundist, player.pos.y),
-    scale(4),
-    anchor("left"),
-    "gun",
-    rotate(0)
-  ]);
-  loop(1 / FPS, () => {
-    if (gameover) {
-      return;
-    }
-    gunIndex = gunIndex % guns.length;
-    let MPos = mousePos();
-    if (relaodFractionsTime > 0) {
-      relaodFractionsTime -= 1;
-    } else {
-      relaodFractionsTime = 0;
-    }
-    if (facing === "up" && player.pos.y > 0 + size) {
-      player.pos.y -= speed;
-    } else if (facing === "down" && player.pos.y < height() - size) {
-      player.pos.y += speed;
-    } else if (facing === "left" && player.pos.x > 0 + size) {
-      player.pos.x -= speed;
-    } else if (facing === "right" && player.pos.x < width() - size) {
-      player.pos.x += speed;
-    }
-    if (facing != "idle" && player.curAnim() != facing) {
-      player.play(facing);
-      player.anim = facing;
-    } else if (facing === "idle" && player.curAnim() != "idle") {
-      player.play("idle");
-      player.anim = "idle";
-    }
-    MPos.y - 5;
-    let angle = Math.atan2(MPos.y - player.pos.y, MPos.x - player.pos.x);
-    gun.pos.x = player.pos.x + Math.cos(angle) * gundist;
-    gun.pos.y = player.pos.y + Math.sin(angle) * gundist;
-    gun.angle = angle * (180 / Math.PI) + angle;
-    if (bulletLoaded == true) {
-      bulletLoaded = false;
-      var bulletSprite = "gun" + gunIndex + "B";
-      var bullet = add([
-        sprite(bulletSprite),
-        pos(gun.pos.x + Math.cos(angle) * bSize, gun.pos.y + Math.sin(angle) * bSize),
-        scale(2),
-        anchor("center"),
-        rotate(gun.angle - angleOffset + (Math.random() * 2 - 1) * anglediffmagnitude * (guns.length - gunIndex)),
-        "bullet",
-        z(11),
-        area(),
-        { index: gunIndex }
-      ]);
-      activeBullets.push(bullet);
-    }
-    let time = (Date.now() - startTime) / 1e3;
-    if (isInside(Math.floor(time), cows_spawn_list_per_seconds) || time > 6e4 && Math.random() < 0.1) {
-      cows_spawn_list_per_seconds.splice(cows_spawn_list_per_seconds.indexOf(Math.floor(time)), 1);
-      let is_left = Math.random() < 0.5;
-      let p = pos(is_left ? 0 : width(), Math.random() * height());
-      var cow = add([
-        sprite("chicken", {
-          anim: "walkright",
-          flipX: is_left ? false : true
-        }),
-        p,
-        scale(4),
-        anchor("center"),
-        "cow",
-        {
-          is_left,
-          hp: 100,
-          negbar: add([
-            rect(size * 2, size / 2, { radius: 4 }),
-            pos(p.pos.x, p.pos.y - size / 2),
-            color(255, 100, 100),
-            anchor("bot"),
-            "hpbar"
-          ]),
-          posbar: add([
-            rect(size * 2, size / 2, { radius: 4 }),
-            pos(p.pos.x, p.pos.y - size / 2),
-            color(100, 255, 100),
-            anchor("bot"),
-            "hpbar",
-            z(10)
-          ])
-        },
-        area()
-      ]);
-      activeCows.push(cow);
-    }
-    for (var i = 0; i < activeBullets.length; i++) {
-      var b = activeBullets[i];
-      b.pos.x += Math.cos(b.angle * (Math.PI / 180)) * bSize;
-      b.pos.y += Math.sin(b.angle * (Math.PI / 180)) * bSize;
-      if (b.pos.x < 0 - bSize || b.pos.x > width() + bSize || b.pos.y < 0 - bSize || b.pos.y > height() + bSize) {
-        destroy(b);
-        activeBullets.splice(i, 1);
-        i--;
+  loadRoot("./assets/");
+  loadSprite("grass", "Sprout Lands Assets/Tilesets/Grass.png", {
+    sliceX: 11,
+    sliceY: 7,
+    anims: (() => {
+      let l = {};
+      for (let i = 0; i <= 77; i++) {
+        l["t" + i] = { from: i, to: i, loop: false };
       }
-    }
-    for (var i = 0; i < activeCows.length; i++) {
-      var c = activeCows[i];
-      if (c.is_left) {
-        c.pos.x += speed / 4;
-        if (c.pos.x > width() + size) {
-          destroy(c);
-          activeCows.splice(i, 1);
-          i--;
-        }
-      } else {
-        c.pos.x -= speed / 4;
-        if (c.pos.x < 0 - size) {
-          destroy(c);
-          activeCows.splice(i, 1);
-          i--;
-        }
+      return l;
+    })()
+  });
+  var grassTiles = {
+    "0000": ["t76"],
+    "0001": ["t0"],
+    "0011": ["t1"],
+    "0010": ["t2"],
+    "1001": ["t9"],
+    "0101": ["t11"],
+    "1010": ["t13"],
+    "1110": ["t16"],
+    "1101": ["t17"],
+    "0110": ["t20"],
+    "0100": ["t22"],
+    "1100": ["t23"],
+    "1000": ["t24"],
+    "1011": ["t27"],
+    "0111": ["t28"],
+    // TODO: change these to more tiles later
+    "1111": ["t12", "t55", "t56", "t57", "t58", "t59", "t66", "t67", "t68", "t69", "t70", "t71"]
+  };
+  loadSprite("dungeon", "Sprout Lands Assets/Tilesets/Water.png", {
+    sliceX: 10,
+    sliceY: 10,
+    // TODO: dungeon random anim
+    anims: (() => {
+      let l = {};
+      for (let i = 0; i <= 99; i++) {
+        l["t" + i] = { from: i, to: i, loop: false };
       }
-      for (var j2 = 0; j2 < activeBullets.length; j2++) {
-        var b = activeBullets[j2];
-        if (c.isColliding(b)) {
-          console.log("hit");
-          c.hp -= (b.index + 1) / guns.length * 100;
-          console.log(c.hp);
-          destroy(b);
-          activeBullets.splice(j2, 1);
-          j2--;
-          if (c.hp <= 0) {
-            destroy(c);
-            destroy(c.negbar);
-            destroy(c.posbar);
-            activeCows.splice(i, 1);
-            i--;
-            break;
+      return l;
+    })()
+  });
+  function mulberry32(a2) {
+    return function() {
+      let t18 = a2 += 1831565813;
+      t18 = Math.imul(t18 ^ t18 >>> 15, t18 | 1);
+      t18 ^= t18 + Math.imul(t18 ^ t18 >>> 7, t18 | 61);
+      return ((t18 ^ t18 >>> 14) >>> 0) / 4294967296;
+    };
+  }
+  var Perlin = class {
+    perm;
+    constructor(seed = Math.random() * 1e4) {
+      this.perm = new Array(512);
+      const p = new Array(256);
+      for (let i = 0; i < 256; i++) p[i] = i;
+      let rng = mulberry32(Math.floor(seed));
+      for (let i = 255; i > 0; i--) {
+        const j2 = Math.floor(rng() * (i + 1));
+        [p[i], p[j2]] = [p[j2], p[i]];
+      }
+      for (let i = 0; i < 512; i++) this.perm[i] = p[i & 255];
+    }
+    fade(t18) {
+      return t18 * t18 * t18 * (t18 * (t18 * 6 - 15) + 10);
+    }
+    lerp(a2, b, t18) {
+      return a2 + t18 * (b - a2);
+    }
+    grad(hash, x, y) {
+      const h = hash & 3;
+      const u = h < 2 ? x : y;
+      const v2 = h < 2 ? y : x;
+      return ((h & 1) === 0 ? u : -u) + ((h & 2) === 0 ? v2 : -v2);
+    }
+    noise(x, y) {
+      const X2 = Math.floor(x) & 255;
+      const Y = Math.floor(y) & 255;
+      const xf = x - Math.floor(x);
+      const yf = y - Math.floor(y);
+      const u = this.fade(xf);
+      const v2 = this.fade(yf);
+      const aa2 = this.perm[X2 + this.perm[Y]];
+      const ab = this.perm[X2 + this.perm[Y + 1]];
+      const ba2 = this.perm[X2 + 1 + this.perm[Y]];
+      const bb = this.perm[X2 + 1 + this.perm[Y + 1]];
+      const x1 = this.lerp(this.grad(aa2, xf, yf), this.grad(ba2, xf - 1, yf), u);
+      const x2 = this.lerp(this.grad(ab, xf, yf - 1), this.grad(bb, xf - 1, yf - 1), u);
+      return (this.lerp(x1, x2, v2) + 1) / 2;
+    }
+  };
+  function generatePerlinBinary(width, height, fullness, scale2 = 0, fractal = false) {
+    if (fullness <= 0) return Array.from({ length: height }, () => Array(width).fill(0));
+    if (fullness >= 1) return Array.from({ length: height }, () => Array(width).fill(1));
+    const perlin = new Perlin();
+    if (scale2 <= 0) scale2 = Math.max(width, height) / 8;
+    const values = [];
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        let noiseVal;
+        if (!fractal) {
+          noiseVal = perlin.noise(x / scale2, y / scale2);
+        } else {
+          let total = 0;
+          let frequency = 1;
+          let amplitude = 1;
+          let maxValue = 0;
+          for (let octave = 0; octave < 4; octave++) {
+            total += perlin.noise(x / scale2 * frequency, y / scale2 * frequency) * amplitude;
+            maxValue += amplitude;
+            amplitude *= 0.5;
+            frequency *= 2;
           }
+          noiseVal = total / maxValue;
         }
-      }
-      c.posbar.width = c.hp / 100 * (size * 2);
-      c.negbar.pos.x = c.pos.x;
-      c.posbar.pos.x = c.pos.x;
-    }
-    for (var j2 = 0; j2 < activeEggs.length; j2++) {
-      var egg = activeEggs[j2];
-      console.log(egg.nice);
-      for (var i = 0; i < activeCows.length; i++) {
-        var c = activeCows[i];
-        if (egg.isColliding(c) && egg.nice != "nest") {
-          egg.play("nest");
-          egg.nice = "nest";
-          textLost.text = "Eggs Lost: " + (parseInt(textLost.text.split(": ")[1]) + 1);
-        }
+        values.push(noiseVal);
       }
     }
-  });
-  onKeyDown(["w", "up"], () => {
-    facing = "up";
-  });
-  onKeyDown(["a", "left"], () => {
-    facing = "left";
-  });
-  onKeyDown(["s", "down"], () => {
-    facing = "down";
-  });
-  onKeyDown(["d", "right"], () => {
-    facing = "right";
-  });
-  onKeyRelease(
-    ["w", "a", "s", "d", "up", "left", "down", "right"],
-    () => {
-      facing = "idle";
+    const sorted = [...values].sort((a2, b) => a2 - b);
+    const cutoff = sorted[Math.floor((1 - fullness) * sorted.length)];
+    const grid = [];
+    let idx = 0;
+    for (let y = 0; y < height; y++) {
+      const row = [];
+      for (let x = 0; x < width; x++) {
+        row.push(values[idx++] > cutoff ? 1 : 0);
+      }
+      grid.push(row);
     }
-  );
-  onClick(() => {
-    if (relaodFractionsTime <= 0) {
-      bulletLoaded = true;
-      relaodFractionsTime = reloadMagnitude * gunIndex;
+    return grid;
+  }
+  var WIDTH_IN_TILES = 10;
+  var HEIGHT_IN_TILES = 10;
+  var WORLD_REDUCED = generatePerlinBinary(WIDTH_IN_TILES - 1, HEIGHT_IN_TILES - 1, 0.5, 0, true);
+  var WORLD = [];
+  for (let y = 0; y < HEIGHT_IN_TILES; y++) {
+    let row = [];
+    for (let x = 0; x < WIDTH_IN_TILES; x++) {
+      let v2 = "";
+      v2 += WORLD_REDUCED[y - 1] && WORLD_REDUCED[y - 1][x] ? "1" : "0";
+      v2 += WORLD_REDUCED[y] && WORLD_REDUCED[y][x - 1] ? "1" : "0";
+      v2 += WORLD_REDUCED[y] && WORLD_REDUCED[y][x] ? "1" : "0";
+      v2 += WORLD_REDUCED[y - 1] && WORLD_REDUCED[y - 1][x - 1] ? "1" : "0";
+      row.push(v2);
     }
-  });
-  onScroll((delta) => {
-    console.log("scrolled");
-    console.log();
-    gunIndex += Math.sign(delta.y);
-    gunIndex = gunIndex % guns.length;
-    if (gunIndex >= 0 && gunIndex < guns.length) {
-      gun.sprite = guns[gunIndex % guns.length];
+    WORLD.push(row);
+  }
+  for (let y = 0; y < HEIGHT_IN_TILES; y++) {
+    for (let x = 0; x < WIDTH_IN_TILES; x++) {
+      let chosenAnim = grassTiles[WORLD[y][x]][Math.floor(Math.random() * grassTiles[WORLD[y][x]].length)];
+      add([
+        sprite("grass", { anim: chosenAnim }),
+        pos(x * 32, y * 32),
+        layer("bg"),
+        scale(2),
+        fixed(),
+        "tile"
+      ]);
     }
-  });
+  }
 })();
