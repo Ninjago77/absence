@@ -5266,7 +5266,7 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
 
   // main.ts
   hw();
-  loadRoot("./assets/");
+  loadRoot("https://raw.githubusercontent.com/Ninjago77/absence/main/assets/");
   loadSprite("grass", "Sprout Lands Assets/Tilesets/Grass.png", {
     sliceX: 11,
     sliceY: 7,
@@ -5278,26 +5278,7 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
       return l;
     })()
   });
-  var grassTiles = {
-    "0000": ["t76"],
-    "0001": ["t0"],
-    "0011": ["t1"],
-    "0010": ["t2"],
-    "1001": ["t9"],
-    "0101": ["t11"],
-    "1010": ["t13"],
-    "1110": ["t16"],
-    "1101": ["t17"],
-    "0110": ["t20"],
-    "0100": ["t22"],
-    "1100": ["t23"],
-    "1000": ["t24"],
-    "1011": ["t27"],
-    "0111": ["t28"],
-    // TODO: change these to more tiles later
-    "1111": ["t12", "t55", "t56", "t57", "t58", "t59", "t66", "t67", "t68", "t69", "t70", "t71"]
-  };
-  loadSprite("dungeon", "Sprout Lands Assets/Tilesets/Water.png", {
+  loadSprite("dungeon", "Dungeon Assets/character and tileset/Dungeon_Tileset.png", {
     sliceX: 10,
     sliceY: 10,
     // TODO: dungeon random anim
@@ -5309,6 +5290,26 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
       return l;
     })()
   });
+  var dungeonTiles = {
+    // "1111": ["t6", "t7", "t8", "t9", "t11", "t12", "t13", "t14", "t21", "t22", "t23", "t24", "t31", "t32", "t33", "t34", "t60", "t61", "t62", "t63"],
+    "1111": ["t70", "t71", "t72"],
+    "0101": ["t0", "t10", "t20", "t30"],
+    "0001": ["t0", "t10", "t20", "t30"],
+    "1010": ["t5", "t15", "t25", "t35"],
+    "0010": ["t5", "t15", "t25", "t35"],
+    "1011": ["t1", "t2", "t3", "t4"],
+    "0111": ["t1", "t2", "t3", "t4"],
+    "0011": ["t1", "t2", "t3", "t4"],
+    "1100": ["t41", "t42", "t43", "t44", "t51", "t52"],
+    "0100": ["t40"],
+    "1000": ["t45"],
+    "1110": ["t50", "t54"],
+    "1101": ["t53", "t55"],
+    // TODO:  change these to more tiles later
+    "0110": ["t99"],
+    "1001": ["t99"],
+    "0000": ["t78"]
+  };
   function mulberry32(a2) {
     return function() {
       let t18 = a2 += 1831565813;
@@ -5398,27 +5399,33 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
     }
     return grid;
   }
-  var WIDTH_IN_TILES = 10;
-  var HEIGHT_IN_TILES = 10;
-  var WORLD_REDUCED = generatePerlinBinary(WIDTH_IN_TILES - 1, HEIGHT_IN_TILES - 1, 0.5, 0, true);
+  var WIDTH_IN_TILES = 40;
+  var HEIGHT_IN_TILES = 20;
+  var WORLD_REDUCED = generatePerlinBinary(WIDTH_IN_TILES - 1, HEIGHT_IN_TILES - 1, 0.4, 0, false);
   var WORLD = [];
-  for (let y = 0; y < HEIGHT_IN_TILES; y++) {
-    let row = [];
-    for (let x = 0; x < WIDTH_IN_TILES; x++) {
-      let v2 = "";
-      v2 += WORLD_REDUCED[y - 1] && WORLD_REDUCED[y - 1][x] ? "1" : "0";
-      v2 += WORLD_REDUCED[y] && WORLD_REDUCED[y][x - 1] ? "1" : "0";
-      v2 += WORLD_REDUCED[y] && WORLD_REDUCED[y][x] ? "1" : "0";
-      v2 += WORLD_REDUCED[y - 1] && WORLD_REDUCED[y - 1][x - 1] ? "1" : "0";
-      row.push(v2);
+  for (let y = 0; y < HEIGHT_IN_TILES - 1 + 1; y++) {
+    const row = [];
+    for (let x = 0; x < WIDTH_IN_TILES - 1 + 1; x++) {
+      const tl = y - 1 >= 0 && x - 1 >= 0 && WORLD_REDUCED[y - 1][x - 1] ? 1 : 0;
+      const tr2 = y - 1 >= 0 && x < WIDTH_IN_TILES - 1 && WORLD_REDUCED[y - 1][x] ? 1 : 0;
+      const bl = y < HEIGHT_IN_TILES - 1 && x - 1 >= 0 && WORLD_REDUCED[y][x - 1] ? 1 : 0;
+      const br = y < HEIGHT_IN_TILES - 1 && x < WIDTH_IN_TILES - 1 && WORLD_REDUCED[y][x] ? 1 : 0;
+      let val = "" + tl + tr2 + bl + br;
+      if (val === "0110") {
+        row.push("1001");
+      } else if (val === "1001") {
+        row.push("0110");
+      } else {
+        row.push(val);
+      }
     }
     WORLD.push(row);
   }
   for (let y = 0; y < HEIGHT_IN_TILES; y++) {
     for (let x = 0; x < WIDTH_IN_TILES; x++) {
-      let chosenAnim = grassTiles[WORLD[y][x]][Math.floor(Math.random() * grassTiles[WORLD[y][x]].length)];
+      let chosenAnim = dungeonTiles[WORLD[y][x]][Math.floor(Math.random() * dungeonTiles[WORLD[y][x]].length)];
       add([
-        sprite("grass", { anim: chosenAnim }),
+        sprite("dungeon", { anim: chosenAnim }),
         pos(x * 32, y * 32),
         layer("bg"),
         scale(2),
@@ -5427,4 +5434,6 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
       ]);
     }
   }
+  console.log(WORLD_REDUCED);
+  console.log(WORLD);
 })();
