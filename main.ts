@@ -218,9 +218,9 @@ for (let y = 0; y < (HEIGHT_IN_TILES-1) + 1; y++) {
 
 for (let y = 0; y < HEIGHT_IN_TILES; y++) {
     for (let x = 0; x < WIDTH_IN_TILES; x++) {
-        let chosenAnim = dungeonTiles[WORLD[y][x]][Math.floor(Math.random()*dungeonTiles[WORLD[y][x]].length)];
+        let chosenAnim = grassTiles[WORLD[y][x]][Math.floor(Math.random()*grassTiles[WORLD[y][x]].length)];
         add([
-            sprite("dungeon", {anim: chosenAnim}),
+            sprite("grass", {anim: chosenAnim}),
             pos(x*32, y*32),
             layer("bg"),
             scale(2),
